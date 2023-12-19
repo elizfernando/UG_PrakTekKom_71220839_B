@@ -1,0 +1,67 @@
+class Penduduk:
+    def __init__(self, nama, usia):
+        self.nama = nama
+        self.usia = usia
+
+    def __repr__(self):
+        return f"{self.nama} - {self.usia} tahun"
+
+class BinaryTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, penduduk):
+        if self.root is None:
+            self.root = penduduk
+        else:
+            self._insert(penduduk, self.root)
+
+    def _insert(self, penduduk, node):
+        if penduduk.nama < node.nama:
+            if node.left is None:
+                node.left = penduduk
+            else:
+                self._insert(penduduk, node.left)
+        else:
+            if node.right is None:
+                node.right = penduduk
+            else:
+                self._insert(penduduk, node.right)
+
+    def inorder(self, node):
+        if node is not None:
+            self.inorder(node.left)
+            print(node)
+            self.inorder(node.right)
+
+    def preorder(self, node):
+        if node is not None:
+            print(node)
+            self.preorder(node.left)
+            self.preorder(node.right)
+
+    def postorder(self, node):
+        if node is not None:
+            self.postorder(node.left)
+            self.postorder(node.right)
+            print(node)
+
+def main():
+    # Buat objek BinaryTree
+    bt = BinaryTree()
+
+    # Tambah data
+    bt.insert(Penduduk("Bambang", 30))
+    bt.insert(Penduduk("Eko", 17))
+
+    # Tampilkan data urut berdasarkan nama
+    print("Tampilkan Urut Nama")
+    bt.inorder(bt.root)
+
+    # Tampilkan data urut berdasarkan usia
+    print("Tampilkan Urut Usia")
+    bt.postorder(bt.root)
+
+if __name__ == "__main__":
+    main()
+
