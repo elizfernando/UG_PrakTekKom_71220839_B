@@ -1,0 +1,84 @@
+class TreeNode:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+        self.left = None
+        self.right = None
+
+class BinaryTree:
+    def __init__(self):
+        self.root = None
+
+    def insert(self, name, age):
+        self.root = self._insert(self.root, name, age)
+
+    def _insert(self, root, name, age):
+        if root is None:
+            return TreeNode(name, age)
+        
+        if name < root.name:
+            root.left = self._insert(root.left, name, age)
+        elif name > root.name:
+            root.right = self._insert(root.right, name, age)
+
+        return root
+
+    def display_in_order(self, root):
+        if root:
+            self.display_in_order(root.left)
+            print(f"{root.name} - {root.age} tahun")
+            self.display_in_order(root.right)
+
+    def display_sorted_by_name(self):
+        print("Daftar Penduduk:")
+        self.display_in_order(self.root)
+
+    def display_sorted_by_age(self):
+        # Helper function to sort by age
+        def sort_by_age(node):
+            if node:
+                return node.age
+
+        sorted_nodes = sorted(self.get_nodes_in_order(self.root), key=sort_by_age)
+        print("Daftar Penduduk:")
+        for node in sorted_nodes:
+            print(f"{node.name} - {node.age} tahun")
+
+    def get_nodes_in_order(self, root):
+        if root:
+            return self.get_nodes_in_order(root.left) + [root] + self.get_nodes_in_order(root.right)
+        else:
+            return []
+
+
+def main():
+    tree = BinaryTree()
+
+    while True:
+        print("\nPilih Menu:")
+        print("1. Tambah Penduduk")
+        print("2. Tampilkan Urut Nama")
+        print("3. Tampilkan Urut Usia")
+        print("4. Keluar")
+        choice = input("Pilihan Anda: ")
+
+        if choice == '1':
+            name = input("Masukkan Nama: ")
+            age = int(input("Masukkan Usia: "))
+            tree.insert(name, age)
+            print("Data berhasil ditambahkan!")
+
+        elif choice == '2':
+            tree.display_sorted_by_name()
+
+        elif choice == '3':
+            tree.display_sorted_by_age()
+
+        elif choice == '4':
+            break
+
+        else:
+            print("Pilihan tidak valid. Silakan coba lagi.")
+
+if __name__ == "__main__":
+    main()
